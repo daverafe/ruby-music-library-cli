@@ -1,10 +1,10 @@
 class Artist
     @@all = []
+    extend Concerns::Findable 
     attr_accessor :name, :songs 
     def initialize(name)
         @name = name
-        @songs = []
-        save 
+        @songs = [] 
     end
     def save
         @@all << self

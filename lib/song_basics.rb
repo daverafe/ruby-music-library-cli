@@ -13,8 +13,7 @@ class Song
             @genre = genre
         else
             self.genre=(genre)
-        end
-        save 
+        end 
     end
     def save
         @@all << self
@@ -44,5 +43,18 @@ class Song
     end
     def self.find_or_create_by_name(name)
         self.find_by_name(name) || self.create(name) 
+    end
+    def self.new_from_filename(filename)
+        file = filename.split(" - ")
+        song_name = self.find_or_create_by_name(file[1]) 
+        song_artist = Artist.find_or_create_by_name(file[0])
+        song_genre = Genre.find_or_create_by_name(file[2].gsub(".mp3", ""))
+        song = self.new(song_name.name, song_artist, song_genre)
+        song  
+    end
+    def self.create_from_filename(filename)
+        song = self.new_from_filename(filename)
+        song.save
+        song
     end
 end
